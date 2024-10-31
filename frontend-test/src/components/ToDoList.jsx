@@ -4,7 +4,7 @@ import axios from "axios";
 import ToDoItem from "./ToDoItem";
 import ToDoForm from "./ToDoForm";
 
-const API_URL = "https://your-vercel-backend/api/todos"; // Adjust with deployed Vercel URL
+const API_URL = "http://localhost:4000/api/todos"; // Adjust with deployed Vercel URL
 
 function ToDoList() {
   const [todos, setTodos] = useState([]);

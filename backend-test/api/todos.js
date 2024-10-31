@@ -1,19 +1,29 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: [""],
+    origin: ["http://localhost:5173"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
 // Connect to MongoDB Atlas
-mongoose.connect(process.env.MONGODB_URI);
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("Connected to mongoDB");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 // Define a schema and model
 const todoSchema = new mongoose.Schema({
@@ -51,6 +61,10 @@ app.put("/api/todos/:id", async (req, res) => {
 app.delete("/api/todos/:id", async (req, res) => {
   await ToDo.findByIdAndDelete(req.params.id);
   res.json({ message: "To-Do deleted" });
+});
+
+app.listen(4000, () => {
+  console.log("app listening at port 4000");
 });
 
 module.exports = app;
